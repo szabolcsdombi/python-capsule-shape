@@ -1,6 +1,6 @@
 # python-capsule-shape
 
-A simple module to calculate mesh normals for python.
+A simple module to create a renderable capsule shape for python.
 
 ## Install
 
