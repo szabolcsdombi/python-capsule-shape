@@ -2,7 +2,7 @@
 
 A simple module to create a renderable capsule shape for python.
 
-<div style="text-align:center">
+<div align="center">
 
 [![preview](.github/preview.png)](#)
 
