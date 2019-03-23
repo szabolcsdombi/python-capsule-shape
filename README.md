@@ -15,5 +15,5 @@ python setup.py develop
 ## Cheat Sheet
 
 ```py
-import depth_sort
+import capsule_shape
 ```
