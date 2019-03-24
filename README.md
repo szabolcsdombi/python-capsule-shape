@@ -18,4 +18,14 @@ python setup.py develop
 
 ```py
 import capsule_shape
+
+mesh, index = capsule_shape.capsule_mesh((0.0, 0.0, 0.0), (0.0, 0.0, 3.0), 1.2, 0.4)
+# mesh is a bytes object containing vertices and normals
+# index is a bytes object containing indexes for indexed rendering
+
+points, index = capsule_shape.capsule_lines((0.0, 0.0, 0.0), (0.0, 0.0, 3.0), 1.2, 0.4)
+# points is a bytes object containing vertices
+# index is a bytes object containing indexes for indexed rendering
+
+distance = capsule_shape.distance((0.0, 0.0, 0.0), (0.0, 0.0, 3.0), 1.2, 0.4, point=(2.0, 0.0, 1.5))
 ```
