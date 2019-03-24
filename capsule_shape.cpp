@@ -247,9 +247,45 @@ PyObject * meth_capsule_lines(PyObject * self, PyObject * args, PyObject * kwarg
     return res;
 }
 
+PyObject * meth_distance(PyObject * self, PyObject * args, PyObject * kwargs) {
+    static char * keywords[] = {"a", "b", "r1", "r2", "point", NULL};
+
+    glm::vec3 a;
+    glm::vec3 b;
+    float r1;
+    float r2;
+    glm::vec3 point;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "(fff)(fff)ff(fff)", keywords, v_xyz(a), v_xyz(b), &r1, &r2, v_xyz(point))) {
+        return 0;
+    }
+
+    if (r1 < r2) {
+        swap(r1, r2);
+        swap(a, b);
+    }
+
+    const glm::vec3 d = b - a;
+    const glm::vec3 u = point - a;
+    const glm::vec3 v = point - b;
+    const float lng = glm::length(d);
+    const float y = glm::length(glm::cross(u, v)) / lng;
+    const float x = y * (r1 - r2) / lng;
+    const float t = (glm::dot(u, d) / lng - x) / lng;
+
+    if (t < 0.0f) {
+        return PyFloat_FromDouble(glm::length(u) - r1);
+    }
+    if (t > 1.0f) {
+        return PyFloat_FromDouble(glm::length(v) - r2);
+    }
+    return PyFloat_FromDouble(sqrtf(x * x + y * y) - (r1 + (r2 - r1) * t));
+}
+
 PyMethodDef module_methods[] = {
     {"capsule_mesh", (PyCFunction)meth_capsule_mesh, METH_VARARGS | METH_KEYWORDS, 0},
     {"capsule_lines", (PyCFunction)meth_capsule_lines, METH_VARARGS | METH_KEYWORDS, 0},
+    {"distance", (PyCFunction)meth_distance, METH_VARARGS | METH_KEYWORDS, 0},
     {0},
 };
 
